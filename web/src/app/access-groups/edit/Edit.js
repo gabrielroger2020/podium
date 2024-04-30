@@ -1,0 +1,105 @@
+'use client'
+import { TextInput,Button, MultiSelect } from "@mantine/core";
+import { IconId, IconLicense, IconEdit } from "@tabler/icons-react";
+import {useForm} from "@mantine/form";
+import api from "@/services/api";
+import { notifications } from "@mantine/notifications";
+import { useState, useEffect } from "react";
+
+export default function Edit (props){
+
+    const [user, setUser] = useState(null);
+
+    const permissions = [
+        {group:"Usuários", items: [
+        {value: "viewUsers", label: "Visualizar Usuários"},
+        {value: "addUsers", label: "Cadastrar Usuários"},
+        {value: "editUsers", label: "Editar Usuários"},
+        {value: "delUsers", label: "Deletar Usuários"},
+        {value: "groupUsers", label: "Adicionar/Remover Usuários de Grupos de Acesso"},
+        {value: "viewImagesProfileAnalysis", label: "Analisar fotos de perfil"}]},
+        
+        {group:"Grupos de Acesso", items: [
+            {value: "viewGroups", label: "Visualizar Grupos de Acesso"},
+            {value: "addGroups", label: "Cadastrar Grupos de Acesso"},
+            {value: "editGroups", label: "Editar Grupos de Acesso"},
+            {value: "delGroups", label: "Deletar Grupos de Acesso"}]},
+    
+        {group:"Documentos", items: [
+            {value: "viewDocs", label: "Visualizar Documentos"},
+            {value: "addDocs", label: "Cadastrar Documentos"},
+            {value: "editDocs", label: "Editar Documentos"},
+            {value: "delDocs", label: "Deletar Documentos"},
+            {value: "viewDocsAnalysis", label: "Analisar Documentos"}]},
+            
+        {group: "Entidades", items: [
+            {value: "viewEntitiesCategories", label: "Visualizar Categorias de Entidades"},
+            {value: "addEntitiesCategories", label: "Cadastrar Categorias de Entidades"},
+            {value: "delEntitiesCategories", label: "Deletar Categorias de Entidades"},
+            {value: "editEntitiesCategories", label: "Editar Categorias de Entidades"},
+            {value: "viewMyEntities", label: "Visualizar Minhas Entidades"},
+            {value: "viewEntities", label: "Visualizar Entidades"},
+            {value: "addEntities", label: "Cadastrar Entidades"},
+            {value: "delEntities", label: "Deletar Entidades"},
+            {value: "editEntities", label: "Editar Entidades"},
+            {value: "managersEntities", label: "Gerenciar Gerentes de Entidades"},
+            
+        ]},
+        {group: "Configurações", items: [
+            {value: "settingsSystem", label: "Configurações do Sistema"}
+        ]}
+        ];
+
+    const form = useForm({
+        initialValues: {
+            id: props.user,
+            name: "",
+            permissions: [],
+            user_creator: sessionStorage.getItem("id")
+        },
+        validate: {
+            name: (value)=>(value.length < 3 ? 'O nome do grupo de acesso deve conter no mínimo 3 caracteres.' : null),
+            permissions: (value)=>(value.length == 0 ? 'Você deve selecionar no mínimo 1 permissão.' : null)
+        }
+
+    });
+
+    const sendData = (values)=>{
+        api.post("/access-group/update",values).then((response)=>{
+            notifications.show({
+                title: "Sucesso!",
+                message: response.data.message,
+                color: "green"
+            });
+            props.getAllAccessGroups();
+            props.closeModal();
+        }).catch((error)=>{
+            console.log(error)
+            notifications.show({
+                title: "Erro!",
+                message: error.response.data.message,
+                color: "red"
+            })
+        })
+    }
+
+    useEffect(()=>{
+        setUser(props.user);
+        api.get(`/access-group/select/${props.user}`).then((response)=>{
+            console.log(response);
+            form.setValues({name: response.data.name, permissions: response.data.permissions})
+        }).catch((error)=>{
+            console.log(error);
+        })
+    }, [])
+
+    return(
+    <form onSubmit={form.onSubmit((values)=>{
+        sendData(values);
+    })}>
+        <TextInput radius="xl" placeholder="Nome" leftSection={<IconId></IconId>} {...form.getInputProps("name")}></TextInput>
+        <MultiSelect data={permissions} radius="xl" placeholder="Permissões" leftSection={<IconLicense></IconLicense>} {...form.getInputProps("permissions")}></MultiSelect>
+        <Button type="submit" fullWidth color="yellow" leftSection={<IconEdit></IconEdit>}> Editar</Button>
+    </form>
+    )
+}

@@ -1,0 +1,49 @@
+/* Container principal */
+.boxFilter{
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+}
+
+/* Cabeçalho do container */
+.boxFilter > div > .filterHeader{
+    
+    padding: 1vh;
+}
+
+.boxFilter > div > .filterHeader > h2{
+    padding: 0;
+    margin: 0;
+}
+
+/* Inputs de filtros */
+
+.filterInputs{
+    border-top: 1px solid #dee2e6;
+    padding: 1vh; 
+}
+
+/* Botões da caixa de filtros */
+.filterButtons{
+    border-top: 1px solid #dee2e6;
+    padding: 1vh;
+}
+
+/*Responsividade*/
+
+
+    /* Celulares */
+@media (max-width: 800px) {
+
+    .filterInputs > div{
+        flex-direction: column !important;
+    }
+
+    .filterInputs > div > .mantine-DatePickerInput-root{
+        width: 100% !important;
+    }
+
+    .filterButtons > div{
+        flex-direction: column !important;
+    }
+    
+}

@@ -1,0 +1,9 @@
+.tablePagination{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 1vh;
+    overflow-x: auto;
+}

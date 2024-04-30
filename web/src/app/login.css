@@ -1,0 +1,96 @@
+
+/* FUNDO DA TELA */
+.background{
+    background-color: rgb(233, 233, 233);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BOX LOGIN */
+.containerMain{
+    width: 25vw;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1vh solid #228be6;
+    padding: 1vh;
+    gap: 1vh;
+    box-shadow: 0px 0px 10px rgb(172, 172, 172);
+    animation-name: birth;
+    animation-duration: 3s;
+}
+
+/* DEFINIDO COR DO TÍTULO DA PÁGINA */
+
+.containerMain > h1{
+    color: black;
+}
+
+/* FORMULÁRIO QUE FICA DENTRO DO BOX LOGIN */
+.containerMain > form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.containerMain > .hr{
+    color: rgb(172, 172, 172);
+    width: 100%;
+}
+
+/* CONTAINER 2FA */
+
+.groupLogin{
+    display: flex;
+    flex-direction: column;
+}
+
+.groupLogin > .container2FA > form{
+    align-items: center !important;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 1580px) {
+    .containerMain{
+        width: 50vw;
+    }
+}
+
+
+/* Celulares */
+@media (max-width: 800px) {
+    .containerMain{
+        width: 90vw;
+    }
+    .containerMain > form > .mantine-Group-root{
+        gap: 1vh;
+        flex-wrap: wrap !important;
+    }
+    /*No celular (iPhone 13) está tendo um bug nas cores das fontes de alguns elementos, os estilos abaixo servem para corrigir isso.*/
+    .mantine-DatePickerInput-calendarHeader{
+        color: black;
+    }
+
+    .mantine-Select-option{
+        color: black;
+    }
+}
+
+/* ANIMAÇÃO DE SURGIMENTO */
+
+@keyframes birth {
+    0%{
+        opacity: 0%;
+        margin-top: 30vh;
+    }
+    100%{
+        opacity: 100%;
+        margin-top: 0vh;
+    }
+}
+

@@ -1,0 +1,19 @@
+.mantine-Notification-root{
+  position: absolute;
+  z-index: 2000 !important;
+  top: 1vh;
+  right: 1vh;
+
+}
+
+.mantine-Modal-body > form{
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.tableActions {
+  display: flex;
+  flex-direction: row;
+  gap: 1vh;
+}
