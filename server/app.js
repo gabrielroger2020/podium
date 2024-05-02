@@ -14,6 +14,9 @@ var accessGroupRouter = require('./routes/accessGroup');
 var docs = require('./routes/docs');
 var entities = require('./routes/entities');
 var imgprofile = require('./routes/imageProfile');
+var modalities = require('./routes/modalities');
+var teams = require('./routes/teams');
+var competitions = require('./routes/competitions');
 
 var app = express();
 
@@ -45,6 +48,9 @@ app.use('/access-group', accessGroupRouter);
 app.use('/docs', docs);
 app.use('/entities', entities);
 app.use('/image-profile', imgprofile);
+app.use('/modalities', modalities);
+app.use('/teams', teams);
+app.use('/competitions', competitions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

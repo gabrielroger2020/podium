@@ -43,7 +43,13 @@ router.post("/image-entity",entities.multerUpload.single('file'), entities.Uploa
 
 //Rota para salvar o upload do arquivo no banco de dados.
 router.post("/save-image-entity", entities.SaveImageShield);
+
 //Rota para usuário encontrar sua foto de perfil.
 router.get("/shield-image/:entity", entities.GetEntityShield);
+
+//Rota para pegar as informações de todos os escudos com status != null
+router.get("/shield-image/select/all", entities.GetShieldsEntities);
+
+router.put("/shield-image/change-status", entities.ChangeShieldStatus);
 
 module.exports = router;

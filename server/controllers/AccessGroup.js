@@ -57,6 +57,10 @@ const Delete = (req,res)=>{
     try{
         const {id} = req.params;
 
+        if(id == 25 || id == 29 || id == 34){
+            return res.status(500).json({message: "Esse grupo de acesso faz parte dos grupos de acesso padrões do sistema e não podem ser excluídos."});
+        }
+
         db.query("SELECT id FROM access_group WHERE id = ?",[id],(err, result)=>{
             if(result.length > 0){
                 db.query("SELECT id FROM access_group_permissions_users WHERE access_group_id = ?", [id], (err, result)=>{

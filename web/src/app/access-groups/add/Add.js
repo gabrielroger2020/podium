@@ -29,19 +29,44 @@ export default function Add (props){
         {value: "delDocs", label: "Deletar Documentos"},
         {value: "viewDocsAnalysis", label: "Analisar Documentos"}]},
         
-    {group: "Entidades", items: [
-        {value: "viewEntitiesCategories", label: "Visualizar Categorias de Entidades"},
-        {value: "addEntitiesCategories", label: "Cadastrar Categorias de Entidades"},
-        {value: "delEntitiesCategories", label: "Deletar Categorias de Entidades"},
-        {value: "editEntitiesCategories", label: "Editar Categorias de Entidades"},
-        {value: "viewMyEntities", label: "Visualizar Minhas Entidades"},
-        {value: "viewEntities", label: "Visualizar Entidades"},
-        {value: "addEntities", label: "Cadastrar Entidades"},
-        {value: "delEntities", label: "Deletar Entidades"},
-        {value: "editEntities", label: "Editar Entidades"},
-        {value: "managersEntities", label: "Gerenciar Gerentes de Entidades"},
-        
-    ]},
+        {group: "Entidades", items: [
+            {value: "viewEntitiesCategories", label: "Visualizar Categorias de Entidades"},
+            {value: "addEntitiesCategories", label: "Cadastrar Categorias de Entidades"},
+            {value: "delEntitiesCategories", label: "Deletar Categorias de Entidades"},
+            {value: "editEntitiesCategories", label: "Editar Categorias de Entidades"},
+            {value: "viewMyEntities", label: "Visualizar Minhas Entidades"},
+            {value: "viewEntities", label: "Visualizar Entidades"},
+            {value: "addEntities", label: "Cadastrar Entidades"},
+            {value: "delEntities", label: "Deletar Entidades"},
+            {value: "editEntities", label: "Editar Entidades"},
+            {value: "managersEntities", label: "Gerenciar Gerentes de Entidades"},
+            {value: "viewShieldsEntitiesAnalysis", label: "Analisar Escudos"}
+            
+        ]},
+
+        {group: "Modalidades", items: [
+            {value: "viewModalities", label: "Visualizar Modalidades"},
+            {value: "delModalities", label: "Cadastrar Modalidades"},
+            {value: "addModalities", label: "Deletar Modalidades"},
+            {value: "editModalities", label: "Editar Modalidades"},
+            
+        ]},
+        {group: "Equipes", items: [
+            {value: "viewTeams", label: "Visualizar Times"},
+            {value: "delTeams", label: "Cadastrar Times"},
+            {value: "addTeams", label: "Deletar Times"},
+            {value: "editTeams", label: "Editar Times"},
+            {value: "managersTeams", label: "Gerenciar Gerentes de Equipes"},
+            {value: "athletesTeams", label: "Gerenciar Atletas de Equipes"},
+            {value: "viewMyTeamsAthletes", label: "Visualisar Minhas equipes (Atleta)"},
+            {value: "viewMyTeamsManagers", label: "Visualisar Minhas equipes (Gerente)"},
+            {value: "addMyTeamsManagers", label: "Cadatrar Minhas equipes (Gerente)"},
+            {value: "editMyTeamsManagers", label: "Editar Minhas equipes (Gerente)"},
+            {value: "delMyTeamsManagers", label: "Deletar Minhas equipes (Gerente)"},
+            {value: "athletesMyTeamsManagers", label: "Gerenciar atletas Minhas equipes (Gerente)"},
+            
+        ]},
+
     {group: "Configurações", items: [
         {value: "settingsSystem", label: "Configurações do Sistema"}
     ]}
@@ -83,7 +108,7 @@ export default function Add (props){
         sendData(values);
     })}>
         <TextInput radius="xl" placeholder="Nome" leftSection={<IconId></IconId>} {...form.getInputProps("name")}></TextInput>
-        <MultiSelect data={permissions} radius="xl" placeholder="Permissões" leftSection={<IconLicense></IconLicense>} {...form.getInputProps("permissions")}></MultiSelect>
+        <MultiSelect hidePickedOptions data={permissions} radius="xl" placeholder="Permissões" leftSection={<IconLicense></IconLicense>} {...form.getInputProps("permissions")}></MultiSelect>
         <Button type="submit" fullWidth color="green" leftSection={<IconPlus></IconPlus>}> Cadastrar</Button>
     </form>
     )

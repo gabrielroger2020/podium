@@ -82,7 +82,7 @@ export default function SendImage(props){
             }
 
             if(response.data.status_image == "recused"){
-                aux.status = <Flex direction={"row"} align={"center"}><Badge color="yellow">Recusado</Badge> <Tooltip label={aux.status_description}><IconInfoCircleFilled></IconInfoCircleFilled></Tooltip></Flex>
+                aux.status = <Flex direction={"row"} align={"center"}><Badge color="red">Recusado</Badge> <Tooltip label={aux.status_description}><IconInfoCircleFilled></IconInfoCircleFilled></Tooltip></Flex>
             }
 
             if(response.data.image == null){

@@ -6,14 +6,20 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 
-export default function IdCard(){
+export default function IdCard(props){
 
     const [profileImage, setProfileImage] = useState("/img/blank-profile-picture.jpg");
     const [userInfos, setUserInfos] = useState(null);
     const [userAccessGroups, setUserAccessGroups] = useState(null);
 
     const getProfileImage = ()=>{
-        api.get(`/users/profile-image/${sessionStorage.getItem("id")}`).then((response)=>{
+        let path = null;
+        if(props.id != undefined && props.id != null){
+            path = `/users/profile-image/${props.id}`
+        }else{
+            path = `/users/profile-image/${sessionStorage.getItem("id")}`
+        }
+        api.get(path).then((response)=>{
             if(response.data.path != undefined){
                 setProfileImage("http://" + configUrl.ip+ ":" +configUrl.port+ "/user-images/" + response.data.path);
             }
@@ -23,10 +29,19 @@ export default function IdCard(){
     }
 
     const getUserInfos = ()=>{
-
-        api.get(`/users/${sessionStorage.getItem("id")}`).then((response)=>{
+        let path = null;
+        if(props.id != undefined && props.id != null){
+            path = `/users/${props.id}`;
+        }else{
+            path = `/users/${sessionStorage.getItem("id")}`
+        }
+        api.get(path).then((response)=>{
             let aux = response.data;
-
+            if(props.id != undefined && props.id != null){
+                aux.id = props.id
+            }else{
+                aux.id = sessionStorage.getItem("id");
+            }
             if(aux.gender == "male"){
                 aux.gender = "Masculino";
             }
@@ -85,7 +100,7 @@ export default function IdCard(){
                         <Text><Text span fw={700}>Gênero:</Text> {(userInfos != null) ? (userInfos.gender):(null)}</Text>
                         <Text><Text span fw={700}>Pessoa com deficiência (PCD):</Text> {(userInfos != null) ? (userInfos.pcd):(null)}</Text>
                         <Text><Text span fw={700}>Grupo de acesso:</Text> {(userInfos != null) ? (userAccessGroups):(null)}</Text>
-                        <Text><Text span fw={700}>Identificação:</Text> {(userInfos != null) ? (sessionStorage.getItem("id")):(null)}</Text>
+                        <Text><Text span fw={700}>Identificação:</Text> {(userInfos != null) ? (userInfos.id):(null)}</Text>
                     </Flex>
                 <h2>Podium 🏆</h2>
                 </Flex>

@@ -2,7 +2,7 @@
 import {useState, useEffect} from "react";
 import {AppShell, Burger, NavLink, Group, Text, Avatar, Modal} from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
-import {IconHome, IconUser, IconSettings, IconLogout2, IconUsersGroup, IconFileText, IconReport, IconPhotoSearch, IconBuilding, IconCategory} from "@tabler/icons-react";
+import {IconHome, IconUser, IconSettings, IconLogout2, IconUsersGroup, IconFileText, IconReport, IconPhotoSearch, IconBuilding, IconCategory, IconPlayFootball} from "@tabler/icons-react";
 import VerifyAuth from "../VerifyAuth/VerifyAuth";
 import IdCard from "../IdCard/IdCard";
 import "./base.css";
@@ -21,6 +21,11 @@ export default function Base(props){
     let keywordEntitiesCategory = "viewEntitiesCategories";
     let keywordEntity = "viewEntities";
     let keywordMyEntities = "viewMyEntities";
+    let keywordShieldsEntitiesAnalysis = "viewShieldsEntitiesAnalysis";
+    let keywordModalities = "viewModalities";
+    let keywordTeams = "viewTeams";
+    let keywordMyTeamsManagers = "viewMyTeamsManagers";
+    let keywordMyTeamsAthletes = "viewMyTeamsAthletes";
 
     const [rkeywordGroupAccess, setRkeywordGroupAccess] = useState(null);
     const [rkeywordUsers, setRkeywordUsers] = useState(null);
@@ -30,6 +35,11 @@ export default function Base(props){
     const [rkeywordEntitiesCategory, setRkeywordEntitiesCategory] = useState(null);
     const [rkeywordEntity, setRkeywordEntity] = useState(null);
     const [rkeywordMyEntities, setRkeywordMyEntities] = useState(null);
+    const [rkeywordShieldsEntitiesAnalysis, setRkeywordShieldsEntitiesAnalysis] = useState(null);
+    const [rkeywordModalities, setRkeywordModalities] = useState(null);
+    const [rkeywordTeams, setRkeywordTeams] = useState(null);
+    const [rkeywordMyTeamsManagers, setRkeywordMyTeamsManagers] = useState(null);
+    const [rkeywordMyTeamsAthletes, setRkeywordMyTeamsAthletes] = useState(null);
 
     /* FIM DO LOCAL PARA DEFINIÇÃO DE PALAVRAS CHAVES DAS PÁGINAS E COMPONENTES E SEUS RETORNOS*/
 
@@ -71,6 +81,24 @@ export default function Base(props){
         });
         api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordMyEntities}`).then((response)=>{
             setRkeywordMyEntities(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordShieldsEntitiesAnalysis}`).then((response)=>{
+            setRkeywordShieldsEntitiesAnalysis(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordModalities}`).then((response)=>{
+            setRkeywordModalities(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordTeams}`).then((response)=>{
+            setRkeywordTeams(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordMyTeamsManagers}`).then((response)=>{
+            setRkeywordMyTeamsManagers(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordMyTeamsManagers}`).then((response)=>{
+            setRkeywordMyTeamsManagers(response.data.access);
+        });
+        api.get(`/access-group/verify-user-access/${sessionStorage.getItem("id")}?keyword=${keywordMyTeamsAthletes}`).then((response)=>{
+            setRkeywordMyTeamsAthletes(response.data.access);
         });
        
     }
@@ -129,17 +157,26 @@ export default function Base(props){
                     </NavLink>
                 ) : (null)}
                 {(rkeywordGroupAccess == true) ? (<NavLink href="/access-groups" active={pathname === "/access-groups"} label="Grupos de acesso" leftSection={<IconUsersGroup></IconUsersGroup>}/>) : (null)}
-                {(rkeywordEntity == true || rkeywordEntitiesCategory == true || rkeywordMyEntities == true)?(<NavLink label={"Entidades"} leftSection={<IconBuilding></IconBuilding>}>
-                {(rkeywordMyEntities == true)? (<NavLink href="/entities/my" active={pathname === "/entities/my"} label="Minhas entidades" leftSection={<IconBuilding></IconBuilding>}/>) : (null)}
-                {(rkeywordEntity == true) ? (<NavLink href="/entities/" active={pathname === "/entities/"} label="Cadastro de entidades" leftSection={<IconBuilding></IconBuilding>}/>) : (null)}
-                {(rkeywordEntitiesCategory == true) ? (<NavLink href="/entities/categories" active={pathname === "/entities/categories"} label="Categorias de entidades" leftSection={<IconCategory></IconCategory>}/>) : (null)}
-                </NavLink>) : (null)}
                 {(rkeywordDocs == true) ? (
                     <NavLink label="Documentos" leftSection={<IconFileText></IconFileText>}>
                         {(rkeywordDocs == true ? (<NavLink href="/docs" active={pathname === "/docs"} label="Cadastro de documentos" leftSection={<IconFileText></IconFileText>}/>) : (null))}
                         {(rkeywordDocsAnalysis == true ? (<NavLink href="/docs-analysis" active={pathname === "/docs-analysis"} label="Análise de documentos" leftSection={<IconReport></IconReport>}/>) : (null))}
                     </NavLink>
                 ) : (null)}
+                {(rkeywordEntity == true || rkeywordEntitiesCategory == true || rkeywordMyEntities == true || rkeywordShieldsEntitiesAnalysis == true)?(<NavLink label={"Entidades"} leftSection={<IconBuilding></IconBuilding>}>
+                {(rkeywordMyEntities == true)? (<NavLink href="/entities/my" active={pathname === "/entities/my"} label="Minhas entidades" leftSection={<IconBuilding></IconBuilding>}/>) : (null)}
+                {(rkeywordEntity == true) ? (<NavLink href="/entities/" active={pathname === "/entities/"} label="Cadastro de entidades" leftSection={<IconBuilding></IconBuilding>}/>) : (null)}
+                {(rkeywordEntitiesCategory == true) ? (<NavLink href="/entities/categories" active={pathname === "/entities/categories"} label="Categorias de entidades" leftSection={<IconCategory></IconCategory>}/>) : (null)}
+                {(rkeywordShieldsEntitiesAnalysis == true) ? (<NavLink href="/entities/image-analysis" active={pathname === "/entities/image-analysis"} label="Análise de escudos" leftSection={<IconPhotoSearch></IconPhotoSearch>}/>):(null)}
+                </NavLink>) : (null)}
+                {(rkeywordTeams == true || rkeywordMyTeamsManagers == true) ? (
+                    <NavLink label="Equipes" leftSection={<IconUsersGroup></IconUsersGroup>}>
+                        {(rkeywordTeams == true ? (<NavLink href="/teams" active={pathname === "/teams"} label="Cadastro de equipes" leftSection={<IconUsersGroup></IconUsersGroup>}/>) : (null))}
+                        {(rkeywordMyTeamsAthletes == true ? (<NavLink href="/teams/my/athlete" active={pathname === "/teams/my/athlete"} label="Minhas equipes (Atleta)" leftSection={<IconUsersGroup></IconUsersGroup>}/>) : (null))}
+                        {(rkeywordMyTeamsManagers == true ? (<NavLink href="/teams/my" active={pathname === "/teams/my"} label="Minhas equipes (Gerente)" leftSection={<IconUsersGroup></IconUsersGroup>}/>) : (null))}
+                    </NavLink>
+                ) : (null)}
+                {(rkeywordModalities == true) ? (<NavLink href="/modalities" active={pathname === "/modalities"} label="Modalidades" leftSection={<IconPlayFootball></IconPlayFootball>}/>):(null)}
             </Group>
             <Group className="menuItems">
                 <NavLink label="Carteira de identificação" onClick={()=>{idCardModalHandlers.open()}} leftSection={<Avatar size={"sm"} src={profileImage}></Avatar>}/>

@@ -461,7 +461,7 @@ const SaveImageShield = (req, res)=>{
         if(file != undefined && file != null){
             db.query("SELECT image FROM entities WHERE id = ?",[entity],(err, result1)=>{
                 if(result1.length > 0 ){
-                    db.query("UPDATE entities SET image = ?, status_image = 'waiting', status_description = NULL WHERE id = ?",[file,entity],(err, result)=>{
+                    db.query("UPDATE entities SET image = ?, status_image = 'waiting', status_description = NULL, image_send_date = NOW() WHERE id = ?",[file,entity],(err, result)=>{
                         if(err){
                             console.log(err)
                             return res.status(500).json({message: "Upload de imagem não concluído."});
@@ -472,7 +472,7 @@ const SaveImageShield = (req, res)=>{
                         return res.status(200).json({message: "O upload da imagem foi realizado."});
                     });
                 }else{
-                    db.query("UPDATE entities SET image = ?, status_image = 'waiting', status_description = NULL WHERE id = ?",[file,entity],(err, result)=>{
+                    db.query("UPDATE entities SET image = ?, status_image = 'waiting', status_description = NULL, image_send_date = NOW() WHERE id = ?",[file,entity],(err, result)=>{
                         if(err){
                             console.log(err)
                             return res.status(500).json({message: "Upload de imagem não concluído."});
@@ -511,5 +511,101 @@ const GetEntityShield = (req, res)=>{
     }
 }
 
+const GetShieldsEntities = (req, res)=>{
+    try{
+        const {id, entity, email, date_order, alphabetical_order} = req.query;
 
-module.exports = {RegisterCategory, SelectCategories, DeleteCategory, EditCategory, SelectCategory, Register, GetEntities, Delete, Update, Managers, getManagers, SaveImageShield, UploadImageShield, GetEntityShield, multerUpload};
+        let sql = "SELECT entities.id, entities.image_send_date, entities.name_official, entities.email, entities.image, entities.status_image, entities.status_description FROM entities WHERE entities.status_image IS NOT NULL";
+        let queryValues = [];
+
+       
+
+        if((id != null && id != "") || (entity != null && entity != "") || (email != null && email != "")){
+
+            sql += " AND ";
+
+            if(id != null && id != ""){
+                sql += `entities.id = ? AND `;
+                queryValues.push(id);
+            }
+
+            if(entity != null && entity != ""){
+                let aux = `%${entity}%`
+                sql += `entities.name_official LIKE ? AND `;
+                queryValues.push(aux);
+            }
+
+            if(email != null && email != ""){
+                sql += `entities.email = ? AND `;
+                queryValues.push(email);
+            }
+
+            sql = sql.substring(0, sql.length-4);
+
+        }
+
+        if(date_order != null && date_order != ""){
+            if(date_order == "yes"){
+                sql += " ORDER BY image_send_date ASC"
+            }
+        }
+
+        if(alphabetical_order != null && alphabetical_order != ""){
+            if(alphabetical_order == "yes"){
+                sql += " ORDER BY name_official ASC"
+            }
+        }
+
+
+        db.query(sql, queryValues, (err, result)=>{
+            if(err){
+                console.log(err)
+                return res.status(500).json({message: "Não foi possível selecionar os escudos das entidades."});
+            }
+            
+            return res.status(200).json(result);
+        })
+
+    }catch(error){
+        return res.status(500).json({message: "Não foi possível selecionar as informações sobre os escudos das entidades."});
+    }
+}
+
+const ChangeShieldStatus = (req,res)=>{
+    try{
+        const {status, description} = req.query;
+        const {id} = req.body;
+
+        if((id != undefined && id != "") && (status != undefined && status != "")){
+            let sql = "";
+            let queryValues = [];
+
+            if(status == "approved" || status == "waiting"){
+                sql = "UPDATE entities SET status_image = ?, status_description = NULL WHERE id = ?";
+
+                queryValues = [status, id]
+
+            }
+
+            if(status == "recused"){
+                sql = "UPDATE entities SET status_image = ?, status_description = ? WHERE id = ?";
+                queryValues = [status, description, id]
+            }
+
+            db.query(sql, queryValues, (err, result)=>{
+                if(err){
+                    return res.status(500).json({message: "Não foi possível mudar o status do escudo da entidade"});
+                }
+                return res.status(200).json({message: "O status do escudo da entidade foi alterado."})
+            })
+        }else{
+            return res.status(400).json({message: "Falta informações para a mudança de status do escudo de entidade."})
+        }
+
+    }catch{
+
+    }
+}
+
+
+module.exports = {RegisterCategory, SelectCategories, DeleteCategory, EditCategory, SelectCategory, Register, GetEntities, Delete, Update, Managers, getManagers, SaveImageShield, UploadImageShield, GetEntityShield, multerUpload, GetShieldsEntities, ChangeShieldStatus};
